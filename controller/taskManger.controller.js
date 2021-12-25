@@ -43,7 +43,7 @@ const deleteList = async (req, res) => {
 
 const getTaskForList = async (req, res) => {
     try {
-        let resp = await task.find({ listId: req.params.listid })
+        let resp = await task.find({ listId: req.params.listId })
         res.send(resp).status(200)
     } catch (error) {
         res.send(error || 'ERROR').status(400)
@@ -72,7 +72,7 @@ const updateTaskForList = async (req, res) => {
         let resp;
         let listExist = await list.find({ _id: req.params.listId })
         if (listExist) {
-            resp = await task.findOneAndUpdate({ _id: req.params.taskId, listId: req.params.listId }, { title: req.body.title }, { new: true })
+            resp = await task.findOneAndUpdate({ _id: req.params.taskId, listId: req.params.listId }, { $set:req.body }, { new: true })
         }
         res.send(resp).status(200)
     } catch (error) {
