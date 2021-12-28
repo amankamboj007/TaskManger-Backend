@@ -1,6 +1,7 @@
 const { userModel } = require('../models/index')
 const { generateAccessToken } = require('../middlewares/jwtHandler')
 const { generatePassword, comparePassword } = require('../middlewares/passwordHandler')
+const _ = require('lodash')
 
 const signUp = async (req, res) => {
     try {
@@ -21,7 +22,8 @@ const login = async (req, res) => {
         if (userDetail) {
             let verify = await comparePassword(req.body.password, userDetail.password)
             if (verify) {
-                userDetail.token = await generateAccessToken(userDetail._id)
+                userDetail.token = await generateAccessToken({ _id: userDetail._id })
+                userDetail = _.omit(userDetail, ['password'])
                 res.send(userDetail).status(200)
             } else {
                 res.send('Password Incorrect').status(400)

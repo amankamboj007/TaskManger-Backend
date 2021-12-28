@@ -11,6 +11,10 @@ const userSchema = mongoose.Schema({
         require: true,
         minlength: 8
     }
-})
+},
+    {
+        versionKey: false
+    }
+)
 
 module.exports = mongoose.model('user', userSchema, 'user')
